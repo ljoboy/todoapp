@@ -7,12 +7,12 @@ class Taches extends CI_Model
 	function getAll()
 	{
 		$this->db->order_by('id', 'asc');
-		return $this->db->get('tache')->result_array();
+		return $this->db->get('tache')->result();
 	}
 
 	function getById($id)
 	{
-		return $this->db->get_where('tache', array('id' => $id))->row_array();
+		return $this->db->get_where('tache', array('id' => $id))->row();
 	}
 
 	function addTache($tache)
