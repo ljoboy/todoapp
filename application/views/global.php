@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="<?= base_url('assets/bower_components/font-awesome/css/font-awesome.min.css'); ?>">
     <!-- Ionicons -->
     <link rel="stylesheet" href="<?= base_url('assets/bower_components/Ionicons/css/ionicons.min.css'); ?>">
+    <!-- daterange picker -->
+    <link rel="stylesheet"
+        href="<?= base_url('assets/bower_components/bootstrap-daterangepicker/daterangepicker.css'); ?>">
     <!-- DataTables -->
     <link rel="stylesheet"
         href="<?= base_url('assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css'); ?>">
@@ -89,7 +92,9 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu</li>
-                    <!-- Optionally, you can add icons to the links -->
+                    <li class="active"><a href="<?= site_url('welcome/index') ?>"><i class="fa fa-list"></i>
+                            <span>Ajouter une
+                                tache</span></a>
                     <li class="active"><a href="<?= site_url('welcome/ajouter') ?>"><i class="fa fa-plus"></i>
                             <span>Ajouter une
                                 tache</span></a>
@@ -104,6 +109,22 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
+                <?php
+				if (isset($this->session->succes)) : ?>
+                <div class="alert alert-info alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alerte !</h4>
+                    <?= $this->session->succes; ?>
+                </div>
+                <?php
+			elseif (isset($this->session->error)) :
+				?>
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alerte !</h4>
+                    <?= $this->session->error; ?>
+                </div>
+                <?php endif ?>
                 <h1>
                     <?= isset($title) ? $title : '' ?>
                     <small><?= isset($desc) ? $desc : '' ?></small>
@@ -125,7 +146,7 @@
                 Allegra Kamwang Kabaku
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; <?=date('Y');?> <a href="#">Allegra</a>.</strong> Tous droit reservés.
+            <strong>Copyright &copy; <?= date('Y'); ?> <a href="#">Allegra</a>.</strong> Tous droit reservés.
         </footer>
     </div>
     <!-- ./wrapper -->
@@ -140,13 +161,24 @@
     <script src="<?= base_url('assets/bower_components/datatables.net/js/jquery.dataTables.min.js'); ?>"></script>
     <script src="<?= base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js'); ?>"></script>
     <script src="<?= base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'); ?>"></script>
+    <!-- date-range-picker -->
+    <script src="<?= base_url('assets/bower_components/moment/min/moment.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/bower_components/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url('assets/dist/js/adminlte.min.js'); ?>"></script>
 
     <script>
     $(function() {
         $('#example1').DataTable();
-    })
+        //Date range picker
+        $('#reservation').daterangepicker()
+    });
+
+    function supprimer(text) {
+        return confirm('Voulez-vous vraiment supprimer (' +
+            text +
+            ') ?')
+    }
     </script>
 </body>
 

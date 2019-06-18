@@ -26,7 +26,7 @@
 						<td> $tache->description </td>
 						<td>
 							<a title='Modifier' href='" . site_url('welcome/modifier/' . $tache->id) . "'><i class='fa fa-pencil fa-2x'></i></a> &nbsp;
-							<a class='text-red' title='Supprimer' href='" . site_url('welcome/supprimer/' . $tache->id) . "'><i class='fa fa-times fa-2x'></i></a>
+							<a class='text-red' title='Supprimer' href='" . site_url('welcome/supprimer/' . $tache->id) . "' onclick='javascript: return supprimer(\"" . $tache->description . "\")'><i class='fa fa-times fa-2x'></i></a>
 						</td>
 					</tr>";
 					$i++;
