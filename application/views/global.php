@@ -12,9 +12,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/bower_components/font-awesome/css/font-awesome.min.css'); ?>">
     <!-- Ionicons -->
     <link rel="stylesheet" href="<?= base_url('assets/bower_components/Ionicons/css/ionicons.min.css'); ?>">
-    <!-- daterange picker -->
-    <link rel="stylesheet"
-        href="<?= base_url('assets/bower_components/bootstrap-daterangepicker/daterangepicker.css'); ?>">
     <!-- DataTables -->
     <link rel="stylesheet"
         href="<?= base_url('assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css'); ?>">
@@ -32,6 +29,21 @@
     <!-- Google Font -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style>
+    .example-modal .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        z-index: 1;
+    }
+
+    .example-modal .modal {
+        background: transparent !important;
+    }
+    </style>
 </head>
 
 
@@ -55,7 +67,42 @@
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!-- The user image in the navbar-->
+                                <img src="<?= base_url('assets/dist/img/img_avatar3.png'); ?>" class="user-image"
+                                    alt="User Image">
+                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                <span class="hidden-xs"><?= strtoupper($this->session->pseudo); ?></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <img src="<?= base_url('assets/dist/img/img_avatar3.png'); ?>" class="img-circle"
+                                        alt="User Image">
+
+                                    <p>
+                                        <?= strtoupper($this->session->pseudo); ?>
+                                    </p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-right">
+                                        <a href="<?= site_url('user/deconnexion'); ?>"
+                                            class="btn btn-default btn-flat">Déconnexion</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </nav>
+
         </header>
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
@@ -66,11 +113,11 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="<?= base_url('assets/dist/img/user2-160x160.jpg'); ?>" class="img-circle"
+                        <img src="<?= base_url('assets/dist/img/img_avatar3.png'); ?>" class="img-circle"
                             alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Utilisateur</p>
+                        <p><?= strtoupper($this->session->pseudo); ?></p>
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i>En ligne</a>
                     </div>
@@ -92,10 +139,20 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu</li>
-                    <li class="active"><a href="<?= site_url('welcome/index') ?>"><i class="fa fa-list"></i>
-                            <span>Ajouter une
-                                tache</span></a>
-                    <li class="active"><a href="<?= site_url('welcome/ajouter') ?>"><i class="fa fa-plus"></i>
+                    <li class="<?= ($nomPage == 'index') ? 'active' : ''; ?>"><a
+                            href="<?= site_url('tache/index') ?>"><i class="fa fa-list"></i>
+                            <span>Lister toutes les
+                                taches</span></a>
+                    <li class="<?= ($nomPage == 'encours') ? 'active' : ''; ?>"><a
+                            href="<?= site_url('tache/encours') ?>"><i class="fa fa-list"></i>
+                            <span>Lister les
+                                taches en cours</span></a>
+                    <li class="<?= ($nomPage == 'fini') ? 'active' : ''; ?>"><a href="<?= site_url('tache/fini') ?>"><i
+                                class="fa fa-list"></i>
+                            <span>Lister les
+                                taches finies</span></a>
+                    <li class="<?= ($nomPage == 'ajouter') ? 'active' : ''; ?>"><a
+                            href="<?= site_url('tache/ajouter') ?>"><i class="fa fa-plus"></i>
                             <span>Ajouter une
                                 tache</span></a>
                     </li>
@@ -113,7 +170,7 @@
 				if (isset($this->session->succes)) : ?>
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Alerte !</h4>
+                    <h4><i class="icon fa fa-info"></i> Alerte !</h4>
                     <?= $this->session->succes; ?>
                 </div>
                 <?php
@@ -163,21 +220,29 @@
     <script src="<?= base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'); ?>"></script>
     <!-- date-range-picker -->
     <script src="<?= base_url('assets/bower_components/moment/min/moment.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/bower_components/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url('assets/dist/js/adminlte.min.js'); ?>"></script>
 
     <script>
     $(function() {
         $('#example1').DataTable();
-        //Date range picker
-        $('#reservation').daterangepicker()
     });
 
     function supprimer(text) {
         return confirm('Voulez-vous vraiment supprimer (' +
             text +
-            ') ?')
+            ') ?');
+    }
+
+    function finir(text) {
+        return confirm('Etes-vous sure d\'avoir fini (' +
+            text +
+            ') ?');
+    }
+
+    function getText(text, id) {
+        $('#desc').text(text);
+        $('#idTache').val(id);
     }
     </script>
 </body>
