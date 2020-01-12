@@ -9,7 +9,7 @@ class Tache extends CI_Controller
 	{
 		parent::__construct();
 		if (!isset($this->session->is_connected)) {
-			redirect('tache');
+			redirect();
 		}
 		$this->load->model('taches');
 		$this->load->helper('date');
