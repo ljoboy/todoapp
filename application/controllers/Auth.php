@@ -7,7 +7,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		if (isset($this->session->is_connected)) {
-			redirect(base_url('tache'));
+			redirect('tache');
 		}
 		$this->load->model('users');
 	}
@@ -41,7 +41,7 @@ class Auth extends CI_Controller
 				redirect();
 			}
 		} else {
-			$this->session->set_flashdata('error', "Erreur inattendu !");
+			$this->session->set_flashdata('error', "Veuillez remplir tous les champs obligatoires svp !");
 			redirect();
 		}
 	}
@@ -69,7 +69,4 @@ class Auth extends CI_Controller
 			$this->load->view('user/ajouter', $data);
 		}
 	}
-
-	function modifier()
-	{ }
 }
